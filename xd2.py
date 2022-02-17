@@ -3,7 +3,22 @@ import tkinter as tk
 ClickWindow = tk.Tk()
 ClickWindow.title("Social Credits")
 Value = 0
+UpLast = False
+DownLast = False
 # Functions
+def Check(action):
+    global UpLast, DownLast
+    UpLast = action
+    DownLast = not action
+
+def Math(x):
+    global Value, UpLast, DownLast
+    if UpLast:
+        Value = Value * 3
+    if DownLast:
+        Value = Value / 3
+    Num.configure(text=Value)
+
 def BGColor(x):
     ClickWindow.configure(bg="yellow")
 
@@ -21,12 +36,14 @@ def CountCheck(Value) -> str:
     return Kleur
 def CountUp():
     global Value
+    Check(action = True)
     Value = Value + 1
     ClickWindow.configure(bg=CountCheck(Value))
     Num.configure(text=Value)
 
 def CountDown():
     global Value
+    Check(action = False)
     Value = Value - 1
     ClickWindow.configure(bg=CountCheck(Value))
     Num.configure(text=Value)
@@ -43,6 +60,7 @@ Num = tk.Label(ClickWindow, text="???", font=('consolas', 20))
 Num.pack(pady=40, anchor='center')
 Num.bind('<Enter>', BGColor)
 Num.bind('<Leave>', BGColor2)
+Num.bind('<Double-Button-1>', Math)
 # Button 2
 Down = tk.Button(ClickWindow)
 Down.configure(font=(40), text="-", bg="red", command=CountDown)
